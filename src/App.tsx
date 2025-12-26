@@ -1,52 +1,58 @@
-import Uploady from "@rpldy/uploady";
+import React, { useState } from "react";
+import Uploady, {
+  useItemStartListener,
+  useItemFinalizeListener
+} from "@rpldy/uploady";
 import { getMockSenderEnhancer } from "@rpldy/mock-sender";
+import UploadDropZone from "@rpldy/upload-drop-zone";
+import withPasteUpload from "@rpldy/upload-paste";
 import UploadPreview from "@rpldy/upload-preview";
-import DropZoneWithBrowse from "./components/DropZoneWithBrowse";
-import SmartUploadInput from "./components/SmartUploadInput";
-import UploadStatus from "./components/UploadStatus";
 
-// Mock sender for simulating upload behavior
 const mockSenderEnhancer = getMockSenderEnhancer();
 
-/**
- * Main App Component
- * Provides multiple ways to upload images:
- * 1. Drag & drop on drop zone
- * 2. Click drop zone to browse files
- * 3. Paste files (Ctrl+V) in input field
- * 4. Type/paste image URLs
- */
+const PasteUploadDropZone = withPasteUpload(UploadDropZone);
+
+const PasteInput = withPasteUpload((props: React.InputHTMLAttributes<HTMLInputElement>) => (
+  <input
+    {...props}
+    className="w-[400px] h-[22px] text-xl my-2.5 bg-transparent border border-gray-600 text-white px-2"
+  />
+));
+
+const UploadStatus = () => {
+  const [status, setStatus] = useState<string | null>(null);
+
+  useItemStartListener(() => setStatus("Uploading..."));
+  useItemFinalizeListener(() => setStatus("Finished!"));
+
+  return status ? <p className="text-white">{status}</p> : null;
+};
+
 export default function App() {
   return (
     <Uploady debug enhancer={mockSenderEnhancer}>
-      <div className="min-h-screen bg-gray-50 py-8 px-4">
-        <div className="max-w-2xl mx-auto">
-          {/* Header */}
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-            Hello React Uploady
-          </h2>
+      <div className="font-sans text-center flex flex-col justify-center items-center min-h-screen bg-[#010916] text-white">
+        <h2 className="text-2xl mb-4">Hello React Uploady</h2>
 
-          {/* Drop zone: drag & drop or click to browse */}
-          <DropZoneWithBrowse />
-
-          {/* Smart input: paste files or type URLs */}
-          <div className="my-4">
-            <SmartUploadInput />
+        <PasteUploadDropZone
+          params={{ test: "paste" }}
+          className="w-[400px] h-[200px] border border-gray-200 flex items-center justify-center mb-2.5 cursor-pointer hover:border-gray-400 transition-colors"
+        >
+          <div className="text-center">
+            You can drop a file here
+            <br />
+            OR
+            <br />
+            click and paste a file to upload
           </div>
+        </PasteUploadDropZone>
 
-          {/* Upload status indicator */}
-          <div className="text-center text-lg font-medium text-blue-600 my-4">
-            <UploadStatus />
-          </div>
+        <PasteInput extraProps={{ placeholder: "paste inside to upload" }} />
 
-          {/* Preview uploaded images */}
-          <div className="mt-8">
-            <UploadPreview
-              previewComponentProps={{
-                className: "max-w-md mx-auto"
-              }}
-            />
-          </div>
+        <UploadStatus />
+
+        <div className="mt-5 [&_img]:max-w-[400px]">
+          <UploadPreview />
         </div>
       </div>
     </Uploady>
