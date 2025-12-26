@@ -11,6 +11,9 @@ importers:
       '@rpldy/mock-sender':
         specifier: ^1.13.0
         version: 1.13.0
+      '@rpldy/upload-button':
+        specifier: ^1.13.0
+        version: 1.13.0(react@19.2.3)
       '@rpldy/upload-drop-zone':
         specifier: ^1.13.0
         version: 1.13.0(react@19.2.3)
@@ -506,6 +509,11 @@ packages:
 
   '@rpldy/simple-state@1.13.0':
     resolution: {integrity: sha512-qAermR75birh9gObMDEkna3z8l3wZ8GGFV6/FbdyIXomnR8q1CwsUgma2gwKPtFAPBsdMCkz1m/yez6RwNLx+A==}
+
+  '@rpldy/upload-button@1.13.0':
+    resolution: {integrity: sha512-f5gvmRv6qCCT4bp/AwhLNf2PU/kvhw7szQqBRVXpfJE3tY7xi4RjBbErQnGN6a9FWl4HCaINhf4yAewzDKGmzg==}
+    peerDependencies:
+      react: '>=16.8'
 
   '@rpldy/upload-drop-zone@1.13.0':
     resolution: {integrity: sha512-DO+HjRViBm4cOj6RCZBRHYNS1HwokDmDgtqM0XQTEQapZ1SsAnN3JwIljpg43Rn5QrDXTdhlg7J5jguCCTyM+A==}
@@ -1748,6 +1756,11 @@ snapshots:
   '@rpldy/simple-state@1.13.0':
     dependencies:
       '@rpldy/shared': 1.13.0
+
+  '@rpldy/upload-button@1.13.0(react@19.2.3)':
+    dependencies:
+      '@rpldy/shared-ui': 1.13.0(react@19.2.3)
+      react: 19.2.3
 
   '@rpldy/upload-drop-zone@1.13.0(react@19.2.3)':
     dependencies:
